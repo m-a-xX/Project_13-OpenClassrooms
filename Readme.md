@@ -11,9 +11,9 @@ Ensuite, après avoir clone le repo, passez dans l'environnement et installez le
 $ . env/bin/activate\
 (env) $ pip install -r requirements.txt\
 Puis initialisez la base de données de citations utilisée par le programme avec la commande :\
-(env) $ python create_db.py\
+(env) $ python create_db.py
 
 ## Utilisation
 
 Une fois la préparation effectuée, vous pouvez utiliser le programme en lançant la commande :\
-(env) $ python main.py\
+(env) $ python main.py
