@@ -90,13 +90,15 @@ quotes = (("Dans la vie on ne fait pas ce que l'on veut mais on est responsable 
 conn = mysql.connector.connect(host="localhost",user="root")
 cursor = conn.cursor()
 #Create database
-cursor.execute("create database quotes_db;")
+cursor.execute("create database if not exists quotes_db;")
 #Move to the database created
 cursor.execute("use quotes_db")
 #Create table will contain quotes
-cursor.execute("create table quotes (id INT NOT NULL AUTO_INCREMENT, quote TEXT NOT NULL, author VARCHAR(150) NOT NULL, cat VARCHAR(300) NOT NULL, PRIMARY KEY (id));")
+cursor.execute("create table if not exists quotes (id INT NOT NULL AUTO_INCREMENT, quote TEXT NOT NULL, author VARCHAR(300) NOT NULL, cat VARCHAR(150) NOT NULL, PRIMARY KEY (id));")
+#Create table will contain saved quotes
+cursor.execute("create table if not exists reg_quotes (id INT NOT NULL AUTO_INCREMENT, quote TEXT NOT NULL, author VARCHAR(300) NOT NULL, PRIMARY KEY (id));")
 for quote in quotes:
     #Creation of a row for every quote
-    cursor.execute("insert into quotes (quote, author, cat) values (%s, %s, %s);", quote)
+    cursor.execute("insert ignore into quotes (quote, author, cat) values (%s, %s, %s);", quote)
 #Commit rows
 conn.commit()
