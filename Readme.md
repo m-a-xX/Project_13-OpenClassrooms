@@ -5,9 +5,9 @@ Ce programme a pour but de générer des citations en donnant la possibilité à
 ## Dépendances et installation
 
 Vous devez avoir MySQL et Virtualenv installé sur votre ordinateur.\
-Premièrement, créez un environnement Python3 avec la commande Unix :\
+Premièrement, créez un environnement virtuel Python3 avec la commande Unix :\
 $ virtualenv env -p python3\
-Ensuite, après avoir clone le repo, passez dans l'environnement et installez les dépendances :\
+Ensuite, après avoir clone le repo, passez dans l'environnement virtuel et installez les dépendances :\
 $ . env/bin/activate\
 (env) $ pip install -r requirements.txt\
 Puis initialisez la base de données de citations utilisée par le programme avec la commande :\
