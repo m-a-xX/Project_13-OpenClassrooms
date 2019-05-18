@@ -19,6 +19,7 @@ def random_quote():
     #Extract only quote and author
     quote = (quote[0][1], quote[0][2])
     print('\n"%s" - %s\n' % quote)
+    after_quote_menu(quote)
 
 
 def print_cats():
@@ -50,6 +51,7 @@ def cat_quote(cat_choice):
     #Extract only quote and author
     quote = (quote[0][1], quote[0][2])
     print('\n"%s" - %s\n' % quote)
+    after_quote_menu(quote)
 
 
 def invalid_choice():
@@ -70,14 +72,36 @@ def cats_menu():
         cats_menu()
 
 
-def after_quote_menu():
+def after_quote_menu(quote):
     """Ask what the user want after printing a quote"""
     print('Souhaitez-vous :')
     print('1 - Enregistrer cette citation et retourner au menu principal')
     print('2 - Retourner au menu principal directement')
     print('3 - Quitter le programme')
-    choice = input('Entrez le chiffre correspondant à votre choix : ')
+    choice = input('\nEntrez le chiffre correspondant à votre choix : ')
+    #If the user choose 3, exit the program
     if choice == '3':
+        sys.exit()
+    if choice == '1':
+        #Save the quote in the reg_quotes table
+        cursor.execute('insert into reg_quotes (quote, author) values ("%s", "%s")' % quote)
+        conn.commit()
+
+
+def reg_quotes():
+    """Retreive and print saved quotes"""
+    cursor.execute('select * from reg_quotes')
+    quotes = cursor.fetchall()
+    #Print every quotes contains in the reg_quotes table
+    for quote in quotes:
+        quote = (quote[1], quote[2])
+        print('\n"%s" - %s\n' % quote)
+    #New after_quote_menu because the original contains an option to save a quote and it's not adapted for here
+    print('\nSouhaitez-vous :')
+    print('1 - Retourner au menu principal')
+    print('2 - Quitter le programme')
+    choice = input('\nEntrez le chiffre correspondant à votre choix : ')
+    if choice == '2':
         sys.exit()
 
 
@@ -85,17 +109,18 @@ def main_menu():
     """Main menu"""
     print('\nChoisissez ce que vous désirez :')
     print('1 - Consulter une citation aléatoire')
-    print('2 - Voir les catégories proposées\n')
+    print('2 - Voir les catégories proposées')
+    print('3 - Consulter les citations enregisrées\n')
     choice = input('Entrez le chiffre correspondant à votre choix : ')
     #If the user choose to have a random quote
     if choice == '1':
         random_quote()
-        after_quote_menu()
     #If the user want to see categories
     if choice == '2':
         cats_menu()
-        after_quote_menu()
     #If the user choice is invalid
+    if choice == '3':
+        reg_quotes()
     if choice != '1' and choice != '2':
         invalid_choice()
     main_menu()
