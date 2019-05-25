@@ -1,17 +1,19 @@
 """File that contain the main function of the program"""
-import mysql.connector
 import random
 import sys
+import mysql.connector
 
 
-categories = [None, 'Vie', 'Gens', 'Travail', 'Amitié', 'Amour', 'Soi-même', 'Famille', 'Argent', 'Autre']
+CATEGORIES = [None, 'Vie', 'Gens', 'Travail', 'Amitié', 'Amour', 'Soi-même', \
+              'Famille', 'Argent', 'Autre']
 
 def random_quote():
     """Generate a random quote"""
     #Retreive all ids
     cursor.execute('select id from quotes')
     id_list = cursor.fetchall()
-    #Get a random number between 1 and the number of quotes (it is represented by the number of ids)
+    #Get a random number between 1 and the number of quotes (it is represented
+    #by the number of ids)
     randid = random.randint(1, len(id_list))
     #Select the quote with the random id
     cursor.execute('select * from quotes where id = %d' % randid)
@@ -23,7 +25,7 @@ def random_quote():
 
 
 def print_cats():
-    """List categories"""
+    """List CATEGORIES"""
     print('\nVoici les catégotries proposées :')
     print('1 - Vie')
     print('2 - Gens')
@@ -38,11 +40,12 @@ def print_cats():
 
 def cat_quote(cat_choice):
     """Generate a quote from a selected category"""
-    cat = categories[int(cat_choice)]
+    cat = CATEGORIES[int(cat_choice)]
     #Retreive all ids of quotes of the asked category
     cursor.execute("select id from quotes where cat = '%s'" % cat)
     id_list = cursor.fetchall()
-    #Get a random number between 0 and the number of quotes of the wanted category  (it is represented by the number of ids)
+    #Get a random number between 0 and the number of quotes of the wanted
+    #category  (it is represented by the number of ids)
     randint = random.randint(0, len(id_list)-1)
     randid = id_list[randint][0]
     #Select the quote with the random id
@@ -62,9 +65,10 @@ def invalid_choice():
 def cats_menu():
     """Call category menu and category quote functions"""
     print_cats()
-    cat_choice = input('Choisissez la catégorie dont la citation qui vous sera proposée sera issue : ')
+    cat_choice = input('Choisissez la catégorie dont la citation qui vous \
+                        sera proposée sera issue : ')
     #If the user selected a valid category
-    if cat_choice == '1' or cat_choice == '2' or cat_choice == '3' or cat_choice == '4' or cat_choice == '5' or cat_choice == '6' or cat_choice == '7' or cat_choice == '8' or cat_choice == '9':
+    if cat_choice in range(1, 10):
         cat_quote(cat_choice)
     #If choice is invalid, asked to make a valid choice and reprint menu
     else:
@@ -84,8 +88,9 @@ def after_quote_menu(quote):
         sys.exit()
     if choice == '1':
         #Save the quote in the reg_quotes table
-        cursor.execute('insert into reg_quotes (quote, author) values ("%s", "%s")' % quote)
-        conn.commit()
+        cursor.execute('insert into reg_quotes (quote, author) values \
+                        ("%s", "%s")' % quote)
+        CONN.commit()
 
 
 def reg_quotes():
@@ -96,7 +101,8 @@ def reg_quotes():
     for quote in quotes:
         quote = (quote[1], quote[2])
         print('\n"%s" - %s\n' % quote)
-    #New after_quote_menu because the original contains an option to save a quote and it's not adapted for here
+    #New after_quote_menu because the original contains an option to save a
+    #quote and it's not adapted for here
     print('\nSouhaitez-vous :')
     print('1 - Retourner au menu principal')
     print('2 - Quitter le programme')
@@ -115,22 +121,22 @@ def main_menu():
     #If the user choose to have a random quote
     if choice == '1':
         random_quote()
-    #If the user want to see categories
+    #If the user want to see CATEGORIES
     if choice == '2':
         cats_menu()
     #If the user choice is invalid
     if choice == '3':
         reg_quotes()
-    if choice != '1' and choice != '2':
+    if choice not in ('1', '2'):
         invalid_choice()
     main_menu()
 
 
 if __name__ == "__main__":
-    """Main function"""
     #Connect to MySQL
-    conn = mysql.connector.connect(host="localhost",user="root",database="quotes_db")
-    cursor = conn.cursor()
+    CONN = mysql.connector.connect(host="localhost", user="root",\
+                                   database="quotes_db")
+    cursor = CONN.cursor()
     #Welcome sentence
     print('\nBienvenue dans ce programme proposant des citations\n')
     #Menu
