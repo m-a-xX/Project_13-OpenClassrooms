@@ -59,17 +59,21 @@ def cat_quote(cat_choice):
 
 def invalid_choice():
     """Ask the user to make a valid choice"""
-    print('\nVeuillez entrer un chiffre valide')
+    print('\nVeuillez entrer un chiffre valide\n')
 
 
 def cats_menu():
     """Call category menu and category quote functions"""
     print_cats()
-    cat_choice = input('Choisissez la catégorie dont la citation qui vous \
-                        sera proposée sera issue : ')
+    cat_choice = input('Choisissez la catégorie dont la citation qui vous '\
+                        'sera proposée sera issue : ')
     #If the user selected a valid category
-    if cat_choice in range(1, 10):
-        cat_quote(cat_choice)
+    try:
+        if int(cat_choice) in range(1, 10):
+            cat_quote(cat_choice)
+    except:
+        invalid_choice()
+        cats_menu()
     #If choice is invalid, asked to make a valid choice and reprint menu
     else:
         invalid_choice()
@@ -91,6 +95,11 @@ def after_quote_menu(quote):
         cursor.execute('insert into reg_quotes (quote, author) values \
                         ("%s", "%s")' % quote)
         CONN.commit()
+    if choice == '2':
+        main_menu()
+    else:
+        invalid_choice()
+        after_quote_menu(quote)
 
 
 def reg_quotes():
@@ -109,6 +118,11 @@ def reg_quotes():
     choice = input('\nEntrez le chiffre correspondant à votre choix : ')
     if choice == '2':
         sys.exit()
+    if choice == '1':
+        pass
+    else:
+        invalid_choice()
+        reg_quotes()
 
 
 def main_menu():
