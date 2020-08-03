@@ -1,19 +1,19 @@
-# Générateur de citations
+# Quote generator
 
-Ce programme a pour but de générer des citations en donnant la possibilité à l'utilisateur de consulter une citation au hasard ou de choisir une catégorie pour consulter une citation ayant pour thème celle-là.
+The purpose of this program is to generate quotes by giving the user the possibility to consult a quote at random or to choose a category to consult a quote having for theme that one.
 
-## Dépendances et installation
+## Outbuildings and installation
 
-Vous devez avoir MySQL et Virtualenv installé sur votre ordinateur.\
-Premièrement, créez un environnement virtuel Python3 avec la commande Unix :\
-$ virtualenv env -p python3\
-Ensuite, après avoir clone le repo, passez dans l'environnement virtuel et installez les dépendances :\
-$ . env/bin/activate\
-(env) $ pip install -r requirements.txt\
-Puis initialisez la base de données de citations utilisée par le programme avec la commande :\
+You must have MySQL and Virtualenv installed on your computer. \
+First, create a Python3 virtual environment with the Unix command: \
+$ virtualenv env -p python3 \
+Then, after cloning the repo, switch to the virtual environment and install the dependencies: \
+$. env / bin / activate \
+(env) $ pip install -r requirements.txt \
+Then initialize the citation database used by the program with the command: \
 (env) $ python create_db.py
 
-## Utilisation
+## Use
 
-Une fois la préparation effectuée, vous pouvez utiliser le programme en lançant la commande :\
+Once the preparation is done, you can use the program by running the command: \
 (env) $ python main.py
